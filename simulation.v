@@ -49,6 +49,51 @@ end
 
 endmodule
 
+// For this case the user will insert $2 then press A3.
+// Since A3 is $1.50 then the user should be given .50c in change
+module Test_Dispense_Change();
+reg clk, reset;
+reg [15:0] money_input;
+reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
+wire [15:0] change, price;
+wire [3:0] selection;
+wire success;
+
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+
+initial
+begin
+	clk = 0;
+	reset = 0;
+	swa = 0;
+	swb = 0;
+	swc = 0;
+	swd = 0;
+	sw1 = 0;
+	sw2 = 0;
+	sw3 = 0;
+	sw4 = 0;
+	money_input = 0;
+	
+
+	forever #5 clk=~clk;
+end
+
+always
+begin
+	#5 money_input = 100;
+	#10 money_input = money_input + 100;
+	#15 swa = 1;
+	#10 swa = 0;
+	#15 sw3 = 1;
+	#10 sw3 = 0;
+	
+	// Check that change is equal to 50c
+	// Check that selection is equal to 2 which maps to A3
+end
+
+endmodule
+
 module Test_Vending_Invalid_Selection();
 reg clk, reset;
 reg [15:0] money_input;
@@ -95,6 +140,50 @@ end
 
 endmodule
 
+// For this case the user will insert $2 then press B1.
+// Since B3 is $2.50 then the price will be outputted to the user
+module Test_Not_Enough_Change();
+reg clk, reset;
+reg [15:0] money_input;
+reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
+wire [15:0] change, price;
+wire [3:0] selection;
+wire success;
+
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+
+initial
+begin
+	clk = 0;
+	reset = 0;
+	swa = 0;
+	swb = 0;
+	swc = 0;
+	swd = 0;
+	sw1 = 0;
+	sw2 = 0;
+	sw3 = 0;
+	sw4 = 0;
+	money_input = 0;
+	
+
+	forever #5 clk=~clk;
+end
+
+always
+begin
+	#5 money_input = 100;
+	#10 money_input = money_input + 100;
+	#15 swb = 1;
+	#10 swb = 0;
+	#15 sw1 = 1;
+	#10 sw1 = 0;
+	
+	// Check that price is equal to 250
+end
+
+endmodule
+
 module Test_Vending_Timeout_Case();
 reg clk, reset;
 reg [15:0] money_input;
@@ -129,3 +218,43 @@ begin
 end
 
 endmodule
+
+// In this test case, the user will insert change the plug will be pulled (I_RESET = 1)
+module Test_Reset_Case();
+reg clk, reset;
+reg [15:0] money_input;
+reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
+wire [15:0] change, price;
+wire [3:0] selection;
+wire success;
+
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+
+initial
+begin
+	clk = 0;
+	reset = 0;
+	swa = 0;
+	swb = 0;
+	swc = 0;
+	swd = 0;
+	sw1 = 0;
+	sw2 = 0;
+	sw3 = 0;
+	sw4 = 0;
+	money_input = 0;
+	
+
+	forever #5 clk=~clk;
+end
+
+always
+begin
+	#5 money_input = 100;
+	#20 reset = 1;
+	
+	// Verify that change is 100. 
+end
+
+endmodule
+

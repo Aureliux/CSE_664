@@ -51,7 +51,27 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 	reg [3:0] selection; // 0-15 match up with O_SEL
 	
 	// TODO add a lookup for prices of 16 items. Update required once selection is made. 
-	reg [15:0] required; 
+		// Table of prices
+	reg [15:0] required[15:0]; 
+	
+	initial begin
+		required[0] = 100; // A1 Price is $1.00
+		required[1] = 100; // A2 Price is $1.00
+		required[2] = 150; // A3 Price is $1.50
+		required[3] = 150; // A4 Price is $1.50
+		required[4] = 250; // B1 Price is $2.50
+		required[5] = 250; // B2 Price is $2.50
+		required[6] = 150; // B3 Price is $1.50
+		required[7] = 175; // B4 Price is $1.75
+		required[8] = 150; // C1 Price is $1.50
+		required[9] = 100; // C2 Price is $1.00
+		required[10] = 125; // C3 Price is $1.25
+		required[11] = 100; // C4 Price is $1.00
+		required[12] = 150; // D1 Price is $1.50
+		required[13] = 150; // D2 Price is $1.50
+		required[14] = 200; // D3 Price is $2.00
+		required[15] = 200; // D4 Price is $2.00
+	end
     
     always @(I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4)
     begin
