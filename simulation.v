@@ -1,3 +1,10 @@
+//Test Case 1: Exact Change Case
+//Test Case 2: Dispense Change Case (Value put in is higher than value needed)
+//Test Case 3: Invalid Selection
+//Test Case 4: Not enough money inserted
+//Test Case 5: Timeout Case (Dispense money after a certain amount of time)
+//Test Case 6: Reset Case (Plug is pulled. Vending machine needs to dispense all money)
+
 module Test_Vending_Exact_Change();
 reg clk, reset;
 reg [15:0] money_input;
