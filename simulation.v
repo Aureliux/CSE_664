@@ -6,7 +6,7 @@ wire [15:0] change, price;
 wire [3:0] selection;
 wire success;
 
-test_vending VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
 
 initial
 begin
@@ -26,6 +26,7 @@ begin
 	forever #5 clk=~clk;
 end
 
+always
 begin
 	#5 money_input = 25;
 	#10 money_input = money_input + 25;
@@ -49,7 +50,7 @@ wire [15:0] change, price;
 wire [3:0] selection;
 wire success;
 
-test_vending VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
 
 initial
 begin
@@ -69,6 +70,7 @@ begin
 	forever #5 clk=~clk;
 end
 
+always
 begin
 	#5 money_input = 25;
 	#10 money_input = money_input + 50;
@@ -94,7 +96,7 @@ wire [15:0] change, price;
 wire [3:0] selection;
 wire success;
 
-test_vending VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
 
 initial
 begin
@@ -114,8 +116,9 @@ begin
 	forever #5 clk=~clk;
 end
 
+always
 begin
-	#5 coins = 100;
+	#5 money_input = 100;
 end
 
 endmodule
