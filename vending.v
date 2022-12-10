@@ -53,7 +53,7 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 	// TODO add a lookup for prices of 16 items. Update required once selection is made. 
 	reg [15:0] required; 
     
-    always @(I_RESET, I_SEL, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4)
+    always @(I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4)
     begin
 		if (I_RESET == 1) begin
 			state <= S_GIVE_CHANGE;
