@@ -89,67 +89,67 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 					// Keep track of latest button pressed to update selection register. 
 					// If a valid selection has been entered transition to S_CHECK_CHANGE.
 					if (I_SWA == 1 && I_SW1 == 1) begin
-						selection <= 4b'0000;
+						selection <= 4'b0000;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWA == 1 && I_SW2 == 1) begin
-						selection <= 4b'0001;
+						selection <= 4'b0001;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWA == 1 && I_SW3 == 1) begin
-						selection <= 4b'0010;
+						selection <= 4'b0010;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWA == 1 && I_SW4 == 1) begin
-						selection <= 4b'0011;
+						selection <= 4'b0011;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWB == 1 && I_SW1 == 1) begin
-						selection <= 4b'0100;
+						selection <= 4'b0100;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWB == 1 && I_SW2 == 1) begin
-						selection <= 4b'0101;
+						selection <= 4'b0101;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWB == 1 && I_SW3 == 1) begin
-						selection <= 4b'0110;
+						selection <= 4'b0110;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWB == 1 && I_SW4 == 1) begin
-						selection <= 4b'0111;
+						selection <= 4'b0111;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWC == 1 && I_SW1 == 1) begin
-						selection <= 4b'1000;
+						selection <= 4'b1000;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWC == 1 && I_SW2 == 1) begin
-						selection <= 4b'1001;
+						selection <= 4'b1001;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWC == 1 && I_SW3 == 1) begin
-						selection <= 4b'1010;
+						selection <= 4'b1010;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWC == 1 && I_SW4 == 1) begin
-						selection <= 4b'1011;
+						selection <= 4'b1011;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWD == 1 && I_SW1 == 1) begin
-						selection <= 4b'1100;
+						selection <= 4'b1100;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWD == 1 && I_SW2 == 1) begin
-						selection <= 4b'1101;
+						selection <= 4'b1101;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWD == 1 && I_SW3 == 1) begin
-						selection <= 4b'1110;
+						selection <= 4'b1110;
 						state <= S_CHECK_CHANGE;
 					end
 					else if (I_SWD == 1 && I_SW4 == 1) begin
-						selection <= 4b'1111;
+						selection <= 4'b1111;
 						state <= S_CHECK_CHANGE;
 					end
 					else begin
