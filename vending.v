@@ -106,70 +106,83 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 					// If a valid selection has been entered transition to S_CHECK_CHANGE.
 					if (letter_sel == 0 && I_SW1 == 1) begin
 						selection <= 4'b0000;
+						O_PRICE <= required[0];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 0 && I_SW2 == 1) begin
 						selection <= 4'b0001;
+						O_PRICE <= required[1];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 0 && I_SW3 == 1) begin
 						selection <= 4'b0010;
+						O_PRICE <= required[2];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 0 && I_SW4 == 1) begin
 						selection <= 4'b0011;
+						O_PRICE <= required[3];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 1 && I_SW1 == 1) begin
 						selection <= 4'b0100;
+						O_PRICE <= required[4];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 1 && I_SW2 == 1) begin
 						selection <= 4'b0101;
+						O_PRICE <= required[5];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 1 && I_SW3 == 1) begin
 						selection <= 4'b0110;
+						O_PRICE <= required[6];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 1 && I_SW4 == 1) begin
 						selection <= 4'b0111;
+						O_PRICE <= required[7];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 2 && I_SW1 == 1) begin
 						selection <= 4'b1000;
+						O_PRICE <= required[8];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 2 && I_SW2 == 1) begin
 						selection <= 4'b1001;
+						O_PRICE <= required[9];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 2 && I_SW3 == 1) begin
 						selection <= 4'b1010;
+						O_PRICE <= required[10];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 2 && I_SW4 == 1) begin
 						selection <= 4'b1011;
+						O_PRICE <= required[11];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 3 && I_SW1 == 1) begin
 						selection <= 4'b1100;
+						O_PRICE <= required[12];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 3 && I_SW2 == 1) begin
 						selection <= 4'b1101;
+						O_PRICE <= required[13];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 3 && I_SW3 == 1) begin
 						selection <= 4'b1110;
+						O_PRICE <= required[14];
 						state <= S_CHECK_CHANGE;
 					end
 					else if (letter_sel == 3 && I_SW4 == 1) begin
 						selection <= 4'b1111;
+						O_PRICE <= required[15];
 						state <= S_CHECK_CHANGE;
-					end
-					else begin
-						state <= S_IDLE;
 					end
 				end
 				
@@ -180,55 +193,6 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 				// If no change is required go back to S_IDLE. X
 				// If change is required go back to S_GIVE_CHANGE. X
 				S_CHECK_CHANGE: begin
-					if (selection == 4'b0000) begin
-						O_PRICE <= required[0];
-					end
-					else if (selection == 4'b0001) begin
-						O_PRICE <= required[1];
-					end
-					else if (selection == 4'b0010) begin
-						O_PRICE <= required[2];
-					end
-					else if (selection == 4'b0011) begin
-						O_PRICE <= required[3];
-					end
-					else if (selection == 4'b0100) begin
-						O_PRICE <= required[4];
-					end
-					else if (selection == 4'b0101) begin
-						O_PRICE <= required[5];
-					end
-					else if (selection == 4'b0110) begin
-						O_PRICE <= required[6];
-					end
-					else if (selection == 4'b0111) begin
-						O_PRICE <= required[7];
-					end
-					else if (selection == 4'b1000) begin
-						O_PRICE <= required[8];
-					end
-					else if (selection == 4'b1001) begin
-						O_PRICE <= required[9];
-					end
-					else if (selection == 4'b1010) begin
-						O_PRICE <= required[10];
-					end
-					else if (selection == 4'b1011) begin
-						O_PRICE <= required[11];
-					end
-					else if (selection == 4'b1100) begin
-						O_PRICE <= required[12];
-					end
-					else if (selection == 4'b1101) begin
-						O_PRICE <= required[13];
-					end
-					else if (selection == 4'b1110) begin
-						O_PRICE <= required[14];
-					end
-					else if (selection == 4'b1111) begin
-						O_PRICE <= required[15];
-					end
-
 					if (I_CHANGE >= O_PRICE) begin
 						O_SEL <= selection;					
 						if (I_CHANGE == O_PRICE) begin

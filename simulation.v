@@ -13,10 +13,10 @@ reg clk, reset;
 reg [15:0] money_input;
 reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
 wire [15:0] change, price;
-wire [3:0] selection;
+wire [3:0] dispense;
 wire success;
 
-vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, dispense, success);
 
 initial
 begin
@@ -45,14 +45,16 @@ begin
 	#10 money_input = money_input + 25;
 	#15 swa = 1;
 	#10 swa = 0;
-	#10 sw1 = 1;
-	#10 sw1 = 0;
+	#10 sw2 = 1;
+	#10 sw2 = 0;
+	#10 money_input = 0
 	#200
 
 	// Check that change is equal to 0c
 	// Check that selection is equal to 0 which maps to A1
 
 	//Choose B4, then insert money
+	
 	#30 swb = 1;
 	#10 swb = 0;
 	#10 sw4 = 1;
@@ -89,7 +91,7 @@ wire [15:0] change, price;
 wire [3:0] selection;
 wire success;
 
-vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, dispense, success);
 
 initial
 begin
@@ -119,22 +121,22 @@ begin
 	#10 sw3 = 0;
 	
 	// Check that change is equal to 50c
-	// Check that selection is equal to 2 which maps to A3
+	// Check that dispense is equal to 2 which maps to A3
 end
 
 endmodule
 
-//Test Case 3: Invalid Selection
+//Test Case 3: Invalid dispense
 //User makes an invalid input, AA and 44.
 module Test_Vending_Invalid_Selection();
 reg clk, reset;
 reg [15:0] money_input;
 reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
 wire [15:0] change, price;
-wire [3:0] selection;
+wire [3:0] dispense;
 wire success;
 
-vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, dispense, success);
 
 initial
 begin
@@ -187,10 +189,10 @@ reg clk, reset;
 reg [15:0] money_input;
 reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
 wire [15:0] change, price;
-wire [3:0] selection;
+wire [3:0] dispense;
 wire success;
 
-vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, dispense, success);
 
 initial
 begin
@@ -230,10 +232,10 @@ reg clk, reset;
 reg [15:0] money_input;
 reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
 wire [15:0] change, price;
-wire [3:0] selection;
+wire [3:0] dispense;
 wire success;
 
-vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, dispense, success);
 
 initial
 begin
@@ -266,10 +268,10 @@ reg clk, reset;
 reg [15:0] money_input;
 reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
 wire [15:0] change, price;
-wire [3:0] selection;
+wire [3:0] dispense;
 wire success;
 
-vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, success);
+vending_machine VEND(reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, dispense, success);
 
 initial
 begin
