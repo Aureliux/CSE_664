@@ -156,13 +156,75 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 						state <= S_IDLE;
 					end
 				end
+				
+				// Update required signal with price for given selection. X 
+				// If there is enough change then Dispense and go to S_GIVE_CHANGE. X
+				// If there isn't enough change then got to S_CHECK_SELECTION. X
+				// Update O_SEL with selection captured from button inputs. X
+				// If no change is required go back to S_IDLE. X
+				// If change is required go back to S_GIVE_CHANGE. X
 				S_CHECK_CHANGE: begin
-					// Update required signal with price for given selection. 
-					// If there is enough change then Dispense and go to S_GIVE_CHANGE.
-					// If there isn't enough change then got to S_CHECK_SELECTION. 
-					// Update O_SEL with selection captured from button inputs. 
-					// If no change is required go back to S_IDLE.
-					// If change is required go back to S_GIVE_CHANGE.
+					if (selection == 4'b0000) begin
+						O_PRICE <= required[0];
+					end
+					else if (selection == 4'b0001) begin
+						O_PRICE <= required[1];
+					end
+					else if (selection == 4'b0010) begin
+						O_PRICE <= required[2];
+					end
+					else if (selection == 4'b0011) begin
+						O_PRICE <= required[3];
+					end
+					else if (selection == 4'b0100) begin
+						O_PRICE <= required[4];
+					end
+					else if (selection == 4'b0101) begin
+						O_PRICE <= required[5];
+					end
+					else if (selection == 4'b0110) begin
+						O_PRICE <= required[6];
+					end
+					else if (selection == 4'b0111) begin
+						O_PRICE <= required[7];
+					end
+					else if (selection == 4'b1000) begin
+						O_PRICE <= required[8];
+					end
+					else if (selection == 4'b1001) begin
+						O_PRICE <= required[9];
+					end
+					else if (selection == 4'b1010) begin
+						O_PRICE <= required[10];
+					end
+					else if (selection == 4'b1011) begin
+						O_PRICE <= required[11];
+					end
+					else if (selection == 4'b1100) begin
+						O_PRICE <= required[12];
+					end
+					else if (selection == 4'b1101) begin
+						O_PRICE <= required[13];
+					end
+					else if (selection == 4'b1110) begin
+						O_PRICE <= required[14];
+					end
+					else if (selection == 4'b1111) begin
+						O_PRICE <= required[15];
+					end
+
+					if (I_CHANGE >= O_PRICE) begin
+						O_SEL <= selection;					
+						if (I_CHANGE == O_PRICE) begin
+							state <= S_IDLE;
+						end
+						else begin
+							state <= S_GIVE_CHANGE;
+						end
+					end
+					else begin
+						state <= S_IDLE;
+					end								
 				end					
 				S_GIVE_CHANGE: begin
 					// Update O_CHANGE with remainder from I_CHANGE - required.
