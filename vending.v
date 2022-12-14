@@ -8,8 +8,8 @@
 // Inputs: A -> B -> D -> 4, Change = 400,   	Expected Outputs: O_SEL = 1111, O_CHANGE = 200, O_SUCCESS = 1
 		
 
-module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4, O_CHANGE, O_PRICE, O_SEL, O_SUCCESS);
-    	input I_RESET;
+module vending_machine (CLK, I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4, O_CHANGE, O_PRICE, O_SEL, O_SUCCESS);
+    	input I_RESET, CLK;
 	
 	// For button inputs assume that two buttons can't be pressed at once. 
 	// So A=1, B=0, C=0, D=0 is valid but A=1, B=1, C=0, D=0 is not valid. 
@@ -39,6 +39,9 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 	// O_SUCCESS outputs a 1 when a successful transaction has occured. This gives some feedback for an
 	// external block that could be added. 
     	output reg O_SUCCESS;
+		
+	// MONEY_IN_MACHINE is the amount of money currently in the machine
+	reg [15:0] MONEY_IN_MACHINE;
 
     	parameter 	S_IDLE  			= 3'b000,
 			S_CHECK_SELECTION 		= 3'b001,
@@ -72,17 +75,25 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 		required[15] = 200; // D4 Price is $2.00
 		selection = 0;
 		state = S_IDLE;
+		MONEY_IN_MACHINE = 0;
 	end
     
-    	always @(I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4)
+    	always @(posedge CLK, I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4)
     	begin
 		if (I_RESET == 1) begin
+			O_PRICE <= 0;
+			MONEY_IN_MACHINE <= I_CHANGE;
+			O_CHANGE <= MONEY_IN_MACHINE - O_PRICE;
 			state <= S_GIVE_CHANGE;
 		end
 		else begin
 			case(state)
 				S_IDLE: begin
 					// If one letter button is pressed then go to S_CHECK_SELECTION.
+					if (O_SUCCESS == 1) begin
+						O_SUCCESS <= 0;
+						O_CHANGE <= 0;
+					end
 					if (I_SWA == 1) begin
 						letter_sel <= 0;
 						state <= S_CHECK_SELECTION;
@@ -184,6 +195,7 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 						O_PRICE <= required[15];
 						state <= S_CHECK_CHANGE;
 					end
+					MONEY_IN_MACHINE <= I_CHANGE;
 				end
 				
 				// Update required signal with price for given selection. X 
@@ -193,23 +205,19 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 				// If no change is required go back to S_IDLE. X
 				// If change is required go back to S_GIVE_CHANGE. X
 				S_CHECK_CHANGE: begin
-					if (I_CHANGE >= O_PRICE) begin
-						O_SEL <= selection;					
-						if (I_CHANGE == O_PRICE) begin
-							state <= S_IDLE;
-						end
-						else begin
-							state <= S_GIVE_CHANGE;
-						end
+					if (MONEY_IN_MACHINE >= O_PRICE) begin
+						O_SEL <= selection;
+						O_SUCCESS <= 1;
+						state <= S_GIVE_CHANGE;
 					end
 					else begin
 						state <= S_IDLE;
 					end								
 				end					
 				S_GIVE_CHANGE: begin
-					O_CHANGE <= I_CHANGE - O_PRICE;
+					O_CHANGE <= MONEY_IN_MACHINE - O_PRICE;
+					MONEY_IN_MACHINE <= (MONEY_IN_MACHINE - O_PRICE - O_CHANGE);
 					O_PRICE <= 0;
-					O_SEL <= 0;
 					state <= S_IDLE; 
 				end
 			endcase
