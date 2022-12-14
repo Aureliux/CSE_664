@@ -47,6 +47,7 @@ begin
 	#10 swa = 0;
 	#10 sw1 = 1;
 	#10 sw1 = 0;
+	#200
 
 	// Check that change is equal to 0c
 	// Check that selection is equal to 0 which maps to A1
@@ -58,6 +59,7 @@ begin
 	#10 sw4 = 0;
 	#20 money_input = 100;
 	#10 money_input = money_input + 75;
+	#200
 
 	// Check that change is equal to 0c
 	// Check that selection is equal to 7 which maps to B4

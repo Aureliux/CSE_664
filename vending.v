@@ -50,6 +50,8 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
     	reg [2:0] state; // Use to update states.
 	reg [3:0] selection; // 0-15 match up with O_SEL.
 	reg [15:0] required [15:0]; // Lookup for prices of 16 items.
+	reg [1:0] letter_sel;
+
 
 	initial begin
 		required[0] = 100; // A1 Price is $1.00
@@ -68,6 +70,8 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 		required[13] = 150; // D2 Price is $1.50
 		required[14] = 200; // D3 Price is $2.00
 		required[15] = 200; // D4 Price is $2.00
+		selection = 0;
+		state = S_IDLE;
 	end
     
     	always @(I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4)
@@ -79,76 +83,88 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 			case(state)
 				S_IDLE: begin
 					// If one letter button is pressed then go to S_CHECK_SELECTION.
-					if (I_SWA == 1 || I_SWB == 1 || I_SWC == 1 || I_SWD == 1) begin
-						if (I_SW1 == 1 || I_SW2 == 1 || I_SW3 == 1 || I_SW4 == 1) begin
-							state <= S_CHECK_SELECTION;
-						end
-					end
+					if (I_SWA == 1) begin
+						letter_sel <= 0;
+						state <= S_CHECK_SELECTION;
+					end 
+					else if(I_SWB == 1) begin
+						letter_sel <= 1;
+						state <= S_CHECK_SELECTION;
+					end 
+					else if(I_SWC == 1) begin
+						letter_sel <= 2;
+						state <= S_CHECK_SELECTION;
+					end 
+					else if(I_SWD == 1) begin
+						letter_sel <= 3;
+						state <= S_CHECK_SELECTION;
+					end 
+					
 				end
 				S_CHECK_SELECTION: begin
 					// Keep track of latest button pressed to update selection register. 
 					// If a valid selection has been entered transition to S_CHECK_CHANGE.
-					if (I_SWA == 1 && I_SW1 == 1) begin
+					if (letter_sel == 0 && I_SW1 == 1) begin
 						selection <= 4'b0000;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWA == 1 && I_SW2 == 1) begin
+					else if (letter_sel == 0 && I_SW2 == 1) begin
 						selection <= 4'b0001;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWA == 1 && I_SW3 == 1) begin
+					else if (letter_sel == 0 && I_SW3 == 1) begin
 						selection <= 4'b0010;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWA == 1 && I_SW4 == 1) begin
+					else if (letter_sel == 0 && I_SW4 == 1) begin
 						selection <= 4'b0011;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWB == 1 && I_SW1 == 1) begin
+					else if (letter_sel == 1 && I_SW1 == 1) begin
 						selection <= 4'b0100;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWB == 1 && I_SW2 == 1) begin
+					else if (letter_sel == 1 && I_SW2 == 1) begin
 						selection <= 4'b0101;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWB == 1 && I_SW3 == 1) begin
+					else if (letter_sel == 1 && I_SW3 == 1) begin
 						selection <= 4'b0110;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWB == 1 && I_SW4 == 1) begin
+					else if (letter_sel == 1 && I_SW4 == 1) begin
 						selection <= 4'b0111;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWC == 1 && I_SW1 == 1) begin
+					else if (letter_sel == 2 && I_SW1 == 1) begin
 						selection <= 4'b1000;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWC == 1 && I_SW2 == 1) begin
+					else if (letter_sel == 2 && I_SW2 == 1) begin
 						selection <= 4'b1001;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWC == 1 && I_SW3 == 1) begin
+					else if (letter_sel == 2 && I_SW3 == 1) begin
 						selection <= 4'b1010;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWC == 1 && I_SW4 == 1) begin
+					else if (letter_sel == 2 && I_SW4 == 1) begin
 						selection <= 4'b1011;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWD == 1 && I_SW1 == 1) begin
+					else if (letter_sel == 3 && I_SW1 == 1) begin
 						selection <= 4'b1100;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWD == 1 && I_SW2 == 1) begin
+					else if (letter_sel == 3 && I_SW2 == 1) begin
 						selection <= 4'b1101;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWD == 1 && I_SW3 == 1) begin
+					else if (letter_sel == 3 && I_SW3 == 1) begin
 						selection <= 4'b1110;
 						state <= S_CHECK_CHANGE;
 					end
-					else if (I_SWD == 1 && I_SW4 == 1) begin
+					else if (letter_sel == 3 && I_SW4 == 1) begin
 						selection <= 4'b1111;
 						state <= S_CHECK_CHANGE;
 					end
