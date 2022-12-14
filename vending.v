@@ -244,10 +244,9 @@ module vending_machine (I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_
 				end					
 				S_GIVE_CHANGE: begin
 					O_CHANGE <= I_CHANGE - O_PRICE;
-					I_CHANGE <= 0;
 					O_PRICE <= 0;
 					O_SEL <= 0;
-					state <= S_IDLE;
+					state <= S_IDLE; 
 				end
 			endcase
 		end
