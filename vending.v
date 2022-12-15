@@ -230,7 +230,7 @@ module vending_machine (CLK, I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW
 				end					
 				S_GIVE_CHANGE: begin
 					O_CHANGE <= MONEY_IN_MACHINE - O_PRICE;
-					MONEY_IN_MACHINE <= (MONEY_IN_MACHINE - O_PRICE - O_CHANGE);
+					MONEY_IN_MACHINE <= 0;
 					O_PRICE <= 0;
 					state <= S_IDLE; 
 				end
