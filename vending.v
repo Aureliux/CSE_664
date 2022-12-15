@@ -76,6 +76,7 @@ module vending_machine (CLK, I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW
 		selection = 0;
 		state = S_IDLE;
 		MONEY_IN_MACHINE = 0;
+		O_CHANGE = 0;
 	end
     
     	always @(posedge CLK, I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW1, I_SW2, I_SW3, I_SW4)
@@ -115,6 +116,19 @@ module vending_machine (CLK, I_RESET, I_CHANGE, I_SWA, I_SWB, I_SWC, I_SWD, I_SW
 				S_CHECK_SELECTION: begin
 					// Keep track of latest button pressed to update selection register. 
 					// If a valid selection has been entered transition to S_CHECK_CHANGE.
+					if (I_SWA == 1) begin
+						letter_sel <= 0;
+					end 
+					else if(I_SWB == 1) begin
+						letter_sel <= 1;
+					end 
+					else if(I_SWC == 1) begin
+						letter_sel <= 2;
+					end 
+					else if(I_SWD == 1) begin
+						letter_sel <= 3;
+					end
+					
 					if (letter_sel == 0 && I_SW1 == 1) begin
 						selection <= 4'b0000;
 						O_PRICE <= required[0];
