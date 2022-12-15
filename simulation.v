@@ -2,8 +2,7 @@
 //Test Case 2: Dispense Change Case (Value put in is higher than value needed)
 //Test Case 3: Invalid Selection
 //Test Case 4: Not enough money inserted
-//Test Case 5: Timeout Case (Dispense money after a certain amount of time)
-//Test Case 6: Reset Case (Plug is pulled. Vending machine needs to dispense all money)
+//Test Case 5: Reset Case (Plug is pulled. Vending machine needs to dispense all money)
 
 //Test Case 1: Exact Change Case
 //For this test case user will input exact change for A1 ($1.00), B4 ($1.75), and D3 ($2.00)
@@ -219,42 +218,7 @@ end
 
 endmodule
 
-//Test Case 5: Timeout Case (Dispense money after a certain amount of time)
-module Test_Vending_Timeout_Case();
-reg clk, reset;
-reg [15:0] money_input;
-reg swa, swb, swc, swd, sw1, sw2, sw3, sw4;
-wire [15:0] change, price;
-wire [3:0] selection;
-wire dispensing;
-
-vending_machine VEND(clk, reset, money_input, swa, swb, swc, swd, sw1, sw2, sw3, sw4, change, price, selection, dispensing);
-
-initial
-begin
-	clk = 0;
-	reset = 0;
-	swa = 0;
-	swb = 0;
-	swc = 0;
-	swd = 0;
-	sw1 = 0;
-	sw2 = 0;
-	sw3 = 0;
-	sw4 = 0;
-	money_input = 0;
-	
-
-	forever #5 clk=~clk;
-end
-
-always
-begin
-	#5 money_input = 100;
-end
-endmodule
-
-//Test Case 6: Reset Case (Plug is pulled. Vending machine needs to dispense all money)
+//Test Case 5: Reset Case (Plug is pulled. Vending machine needs to dispense all money)
 // In this test case, the user will insert change the plug will be pulled (I_RESET = 1)
 module Test_Reset_Case();
 reg clk, reset;
